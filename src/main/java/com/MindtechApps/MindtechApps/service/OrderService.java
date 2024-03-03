@@ -9,8 +9,10 @@ import com.MindtechApps.MindtechApps.enums.OrderStatus;
 import com.MindtechApps.MindtechApps.repository.OrderRepository;
 import com.MindtechApps.MindtechApps.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,5 +46,29 @@ public class OrderService {
             .build();
 
         return orderRepository.save(order);
+    }
+
+    public List<Order> getOrders(final User owner) {
+        return restaurantRepository.findById(owner.getRestaurant().getId()).get().getOrders();
+    }
+
+    public Order getOrderInfoById(final Long id) throws Exception {
+        return getOrderById(id);
+    }
+
+    public Order updateOrderStatus(final Long id, final OrderStatus orderStatus) throws Exception {
+        final Order order = getOrderById(id);
+        order.setOrderStatus(orderStatus);
+
+        return orderRepository.save(order);
+    }
+
+    private Order getOrderById(final Long id) throws Exception {
+        Optional<Order> order = orderRepository.findById(id);
+        if (order.isEmpty()) {
+            throw new Exception("Order does not exists");
+        }
+
+        return order.get();
     }
 }

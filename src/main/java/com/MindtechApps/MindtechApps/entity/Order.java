@@ -1,6 +1,7 @@
 package com.MindtechApps.MindtechApps.entity;
 
 import com.MindtechApps.MindtechApps.enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -41,10 +42,12 @@ public class Order {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name="customer_id", nullable=false)
     private User customer;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name="restaurant_id", nullable=false)
     private Restaurant restaurant;
 

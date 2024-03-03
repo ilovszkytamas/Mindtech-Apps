@@ -21,6 +21,13 @@ public class TestDataLoader {
     public void appReady(ApplicationReadyEvent event) {
 
         if (userRepository.findAll().size() < 1) {
+
+            Restaurant restaurant = new Restaurant();
+            restaurant.setRestaurantName("restaurant");
+            restaurant.setLocation("location");
+            restaurant = restaurantRepository.save(restaurant);
+
+
             User testUser = new User();
             testUser.setEmail("test");
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -31,10 +38,16 @@ public class TestDataLoader {
 
             userRepository.save(testUser);
 
-            Restaurant restaurant = new Restaurant();
-            restaurant.setRestaurantName("restaurant");
-            restaurant.setLocation("location");
+            User restaurantUser = new User();
+            restaurantUser.setEmail("testRestaurant");
+            restaurantUser.setPassword(encodedPassword);
+            restaurantUser.setUserName("testRestaurant");
+            restaurantUser.setRole(Role.RESTAURANT);
+            restaurantUser.setRestaurant(restaurant);
 
+            restaurant.setOwner(restaurantUser);
+
+            userRepository.save(restaurantUser);
             restaurantRepository.save(restaurant);
         }
     }
