@@ -1,5 +1,6 @@
 package com.MindtechApps.MindtechApps.configuration;
 
+import com.MindtechApps.MindtechApps.converter.OrderToOrderDTOConverter;
 import com.MindtechApps.MindtechApps.converter.UserToUserDTOConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -10,5 +11,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new UserToUserDTOConverter());
+        registry.addConverter(new OrderToOrderDTOConverter());
     }
 }
